@@ -1,13 +1,30 @@
+
+<!doctype html>
 <html ng-app="testWeb">
-<head>
-<script src="../js/angular.min.js"></script>
-<script src="../js/angular-ui-router.min.js"></script>
-<script src="./app.js"></script>
-<script src="./login/login.js"></script>
-<script src="./account/account.js"></script>
-</head>
-<body>
-<div ui-view="main">
-</div>
-</body> 
+  <head>
+ <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="../js/angular.min.js"></script>
+    <script src="../js/angular-ui-router.min.js"></script>
+    <script src="./app.js"></script>
+    <script src="./login/login.js"></script>
+    <script src="./secured/secured.js"></script>
+    <script src="./secured/account/account.js"></script>
+    <link rel="stylesheet" href="../css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="../css/bootstrap-theme.min.css"/>
+  </head>
+  <body>
+   <div class="container">
+     <div ui-view="header">
+     </div>
+     <div class="jumbotron">
+      <div ui-view="menus">
+      </div>
+      <div ui-view="top">
+      </div>
+     </div>
+     <div ui-view="footer">
+     </div>
+    </div>
+  </body> 
 </html>
+

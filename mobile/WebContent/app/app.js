@@ -1,79 +1,94 @@
-var testWeb = angular.module('testWeb',
-		[ 'ui.router', 'loginApp', 'accountApp' ]);
+var testWeb = angular.module('testWeb', [ 'ui.router', 'loginApp', 'secured' ]);
 
 testWeb.service('SystemService', function() {
-	this.handlerHttpError = function($scope, error, status) {
-		// TODO
-	}
-	this.httpPost = function(req) {
-		var url = req.url;
-		var data = req.data;
-		var http = req.http;
-		var state = req.state;
-		var callback = req.callback;
+ this.handlerHttpError = function($scope, error, status) {
+  // TODO
+ }
+ this.httpPost = function(req) {
+  var url = req.url;
+  var data = req.data;
+  var http = req.http;
+  var state = req.state;
+  var callback = req.callback;
 
-		http.post(url, data).success(function(data, status, headers, config) {
-			var response = {
-				data : data,
-				status : status,
-				headers : headers,
-				config : config,
-				redirected : false
-			};
-			if (data.errors) {
-				for (i in data.errors) {
-					var error = data.errors[i];
-					if (error.code == 'notLogin') {
-						response.redirected = true;
-						state.go('login');
-					}
-				}
-			}
-			callback(response);
-		}).error(function(data, status, headers, config) {
-			var response = {
-				data : data,
-				status : status,
-				headers : headers,
-				config : config,
-				redirected : false
-			};
-			if (status == 401) {
-				response.redirected = true;
-				state.go('login');
-			}
-			callback(response);
-		});
-	}
+  http.post(url, data).success(function(data, status, headers, config) {
+   var response = {
+    data : data,
+    status : status,
+    headers : headers,
+    config : config,
+    redirected : false
+   };
+   if (data.errors) {
+    for (i in data.errors) {
+     var error = data.errors[i];
+     if (error.code == 'notLogin') {
+      response.redirected = true;
+      state.go('login');
+     }
+    }
+   }
+   callback(response);
+  }).error(function(data, status, headers, config) {
+   var response = {
+    data : data,
+    status : status,
+    headers : headers,
+    config : config,
+    redirected : false
+   };//TODO
+   if (status == 401) {
+    response.redirected = true;
+    state.go('login');
+   }
+   callback(response);
+  });
+ }
 });
 
 testWeb.run([ '$rootScope', function($rootScope) {
-	$rootScope.appData = {};
+ $rootScope.appData = {};
 } ]);
 testWeb.config([ '$stateProvider', '$urlRouterProvider',
-		function($stateProvider, $urlRouterProvider) {
-			$urlRouterProvider.otherwise('/login');
-			$stateProvider
-			// Login ========================================
-			.state('login', {
-				url : '/login',
-				views : {
-					'main' : {
-						templateUrl : 'login/login.html',
-						controller : 'LoginController'
-					}
-				}
+  function($stateProvider, $urlRouterProvider) {
+   $stateProvider
+   // Login ========================================
+   .state('login', {
+    url : '',
+    views : {
+     'top' : {
+      templateUrl : 'login/login.html',
+      controller : 'LoginController'
+     },
+     'header' : {
+      templateUrl : 'global/header-public.html'
+     },
+     'footer' : {
+      templateUrl : 'global/footer-public.html'
+     }
+    }
 
-			})
-			// Account =================================
-			.state('account', {
-				url : '/account',
-				views : {
-					'main' : {
-						templateUrl : 'account/account.html',
-						controller : 'AccountController'
-					}
-				}
-			});
-
-		} ]);
+   })
+   // secured =================================
+   .state('secured', {
+    abstract:true,
+    url : '/secured',
+    views : {
+     'menus' : {
+      templateUrl : 'global/menu.html',
+      controller : 'AccountController'
+     },
+     'top' :{
+      templateUrl : 'secured/secured.html',
+      controller : 'AccountController'
+     },
+     'header' : {
+      templateUrl : 'global/header-public.html'
+     },
+     'footer' : {
+      templateUrl : 'global/footer-public.html'
+     }
+   
+    }
+   })
+  } ]);
