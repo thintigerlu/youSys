@@ -4,6 +4,14 @@ testWeb.service('SystemService', function() {
  this.handlerHttpError = function($scope, error, status) {
   // TODO
  }
+ this.checkLogin = function($scope, $state){
+  if ($scope.appData == undefined || $scope.appData.loginForm == undefined 
+    || $scope.appData.loginForm.loginId == undefined) {
+   $state.go('login');
+   return false;
+  }
+  return true;
+ }
  this.httpPost = function(req) {
   var url = req.url;
   var data = req.data;
@@ -22,6 +30,7 @@ testWeb.service('SystemService', function() {
    if (data.errors) {
     for (i in data.errors) {
      var error = data.errors[i];
+     //alert('1'+error.code);
      if (error.code == 'notLogin') {
       response.redirected = true;
       state.go('login');
@@ -36,7 +45,7 @@ testWeb.service('SystemService', function() {
     headers : headers,
     config : config,
     redirected : false
-   };//TODO
+   };
    if (status == 401) {
     response.redirected = true;
     state.go('login');
@@ -51,10 +60,11 @@ testWeb.run([ '$rootScope', function($rootScope) {
 } ]);
 testWeb.config([ '$stateProvider', '$urlRouterProvider',
   function($stateProvider, $urlRouterProvider) {
+   $urlRouterProvider.otherwise('/');
    $stateProvider
    // Login ========================================
    .state('login', {
-    url : '',
+    url : '/',
     views : {
      'top' : {
       templateUrl : 'login/login.html',
