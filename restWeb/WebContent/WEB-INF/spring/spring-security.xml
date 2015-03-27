@@ -1,0 +1,28 @@
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+ xmlns:beans="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+           http://www.springframework.org/schema/security
+           http://www.springframework.org/schema/security/spring-security.xsd">
+  <global-method-security secured-annotations="enabled" />           
+ <authentication-manager  alias="authenticationManager">
+  <authentication-provider>
+   <user-service>
+    <user name="test" password="pass" authorities="ROLE_USER, ROLE_ADMIN" />
+    <user name="admin" password="pass" authorities="ROLE_ADMIN" />
+   </user-service>
+  </authentication-provider>
+ </authentication-manager>
+ <http use-expressions="true">
+  <anonymous granted-authority="PUBLIC" enabled="true"/>
+  <intercept-url pattern="/public/**" access="permitAll" />
+  <intercept-url pattern="/login/**" access="permitAll" />
+  <intercept-url pattern="/account/**" access="hasRole('ROLE_USER')" />
+  <intercept-url pattern="/**" access="permitAll" />
+  <form-login   
+   authentication-failure-url="/" login-page="/"/>
+  <csrf request-matcher-ref="defaultRequestMatcher"/>
+ <!-- csrf -->
+ </http>
+ <beans:bean id="defaultRequestMatcher" class="com.td.securities.marrs.report.web.filter.DefaultRequestMatcher"/>
+</beans:beans>
