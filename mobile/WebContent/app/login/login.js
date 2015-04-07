@@ -5,6 +5,7 @@ var loginApp = angular.module('loginApp', [ 'ui.router' ]);
 loginApp.controller('LoginController', [ '$scope','$http','$state','SystemService', function($scope,$http,$state,SystemService) {
  $scope.init = function() {
   $scope.appData.loginForm = {};
+  $scope.ttt='Hello there, how are you today? I am fine thank you.';
  }
  $scope.login = function() {
   var data = {loginId : $scope.appData.loginForm.loginId, password : $scope.appData.loginForm.password};
