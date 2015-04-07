@@ -1,4 +1,4 @@
-var testWeb = angular.module('testWeb', [ 'ui.router', 'loginApp', 'secured' ]);
+var testWeb = angular.module('testWeb', [ 'ui.router', 'ui.utils', 'loginApp', 'secured' ]);
 
 testWeb.service('SystemService', function() {
  this.handlerHttpError = function($scope, error, status) {
