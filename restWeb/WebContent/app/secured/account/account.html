@@ -1,0 +1,12 @@
+
+<div ng-init="init()">
+
+<B>Account #: {{::appData.loginForm.loginId}} </B><br/>
+<b>Holdings:</b><br/>
+<div ng-repeat="holding in appData.account.holdings">
+  <a ui-sref="secured.account.holding({name:holding.name})">{{::holding.name}} : {{::holding.balance}}</a>
+</div>
+<div ui-view="holding">
+</div>
+</div>
+
